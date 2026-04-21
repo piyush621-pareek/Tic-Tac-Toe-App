@@ -1,43 +1,23 @@
-import java.util.Scanner;
-import java.util.InputMismatchException;
-
 public class TicTacToe {
-    public int getSlotInput(Scanner scanner) {
-        int slot = -1;
-        boolean isValid = false;
+	
+    public static int[] convertSlotToIndex(int slot) {
 
-        while (!isValid) {
-            System.out.print("Please enter a slot number (1-9): ");
-            
-            try {
-                slot = scanner.nextInt();
-
-                if (slot >= 1 && slot <= 9) {
-                    isValid = true; 
-                } else {
-                    System.out.println("Invalid choice. The slot must be between 1 and 9.");
-                }
-                
-            } catch (InputMismatchException e) {
-
-                System.out.println("Invalid input. Please enter a valid integer.");
-                scanner.next(); 
-            }
+        if (slot < 1 || slot > 9) {
+            throw new IllegalArgumentException("Invalid slot! Please enter a number between 1 and 9.");
         }
-        
-
-        return slot; 
+        int zeroBasedIndex = slot - 1;
+        int row = zeroBasedIndex / 3;
+        int col = zeroBasedIndex % 3;
+        return new int[]{row, col};
     }
 
     public static void main(String[] args) {
-        Scanner consoleScanner = new Scanner(System.in);
-        TicTacToe game = new TicTacToe();
-        
-        System.out.println("--- Player Turn ---");
-        int chosenSlot = game.getSlotInput(consoleScanner);
-        
-        System.out.println("Successfully recorded slot: " + chosenSlot);
-        
-        consoleScanner.close();
+        System.out.println("Testing Slot to Index Conversion:");
+        System.out.println("---------------------------------");
+
+        for (int slot = 1; slot <= 9; slot++) {
+            int[] indices = convertSlotToIndex(slot);
+            System.out.printf("Slot %d -> Row: %d, Col: %d%n", slot, indices[0], indices[1]);
+        }
     }
 }
