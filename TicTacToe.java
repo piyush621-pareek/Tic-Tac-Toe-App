@@ -1,39 +1,47 @@
+import java.util.Random;
+
 public class TicTacToe {
-    // Define the board as a 2D character array
-    private char[][] board;
+    
+    // --- Game State Variables ---
+    private char player1Symbol;
+    private char player2Symbol;
+    private int currentPlayer; // 1 represents Player 1, 2 represents Player 2
+    private char currentSymbolTurn;
 
-    public TicTacToe() {
-        // Initialize a 3x3 board
-        board = new char[3][3];
-        initializeBoard();
+    public void startNewGame() {
+        System.out.println("Game starts... Flipping the coin!");
+        performToss();
     }
 
-    // UC1: Initialization Logic
-    public void initializeBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                // Set each cell to a dash '-'
-                board[i][j] = '-';
-            }
+    private void performToss() {
+        // --- Random Number Generation ---
+        Random random = new Random();
+        int tossResult = random.nextInt(2); // Generates either 0 or 1
+
+        // --- Conditional Logic & Assigning Symbols ---
+        if (tossResult == 0) {
+            System.out.println("Player 1 won the toss!");
+            currentPlayer = 1;
+            player1Symbol = 'X';
+            player2Symbol = 'O';
+            currentSymbolTurn = 'X'; 
+        } else {
+            System.out.println("Player 2 won the toss!");
+            currentPlayer = 2;
+            player2Symbol = 'X'; 
+            player1Symbol = 'O';
+            currentSymbolTurn = 'X'; 
         }
+
+        // Output the results stored in the game state variables
+        System.out.println("Player 1 is assigned: " + player1Symbol);
+        System.out.println("Player 2 is assigned: " + player2Symbol);
+        System.out.println("Player " + currentPlayer + " will make the first move playing '" + currentSymbolTurn + "'.");
     }
 
-    // UC1: Console Output Formatting
-    public void displayBoard() {
-        System.out.println("Current Board:");
-        for (int i = 0; i < 3; i++) {
-            System.out.print("| ");
-            for (int j = 0; j < 3; j++) {
-                // Print the cell value and a divider
-                System.out.print(board[i][j] + " | ");
-            }
-            System.out.println(); // Move to the next row
-            System.out.println("-------------"); // Row separator
-        }
-    }
-
+    // Main method to test the flow
     public static void main(String[] args) {
         TicTacToe game = new TicTacToe();
-        game.displayBoard();
+        game.startNewGame();
     }
 }
