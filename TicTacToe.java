@@ -1,47 +1,43 @@
-import java.util.Random;
+import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class TicTacToe {
-    
-    // --- Game State Variables ---
-    private char player1Symbol;
-    private char player2Symbol;
-    private int currentPlayer; // 1 represents Player 1, 2 represents Player 2
-    private char currentSymbolTurn;
+    public int getSlotInput(Scanner scanner) {
+        int slot = -1;
+        boolean isValid = false;
 
-    public void startNewGame() {
-        System.out.println("Game starts... Flipping the coin!");
-        performToss();
-    }
+        while (!isValid) {
+            System.out.print("Please enter a slot number (1-9): ");
+            
+            try {
+                slot = scanner.nextInt();
 
-    private void performToss() {
-        // --- Random Number Generation ---
-        Random random = new Random();
-        int tossResult = random.nextInt(2); // Generates either 0 or 1
+                if (slot >= 1 && slot <= 9) {
+                    isValid = true; 
+                } else {
+                    System.out.println("Invalid choice. The slot must be between 1 and 9.");
+                }
+                
+            } catch (InputMismatchException e) {
 
-        // --- Conditional Logic & Assigning Symbols ---
-        if (tossResult == 0) {
-            System.out.println("Player 1 won the toss!");
-            currentPlayer = 1;
-            player1Symbol = 'X';
-            player2Symbol = 'O';
-            currentSymbolTurn = 'X'; 
-        } else {
-            System.out.println("Player 2 won the toss!");
-            currentPlayer = 2;
-            player2Symbol = 'X'; 
-            player1Symbol = 'O';
-            currentSymbolTurn = 'X'; 
+                System.out.println("Invalid input. Please enter a valid integer.");
+                scanner.next(); 
+            }
         }
+        
 
-        // Output the results stored in the game state variables
-        System.out.println("Player 1 is assigned: " + player1Symbol);
-        System.out.println("Player 2 is assigned: " + player2Symbol);
-        System.out.println("Player " + currentPlayer + " will make the first move playing '" + currentSymbolTurn + "'.");
+        return slot; 
     }
 
-    // Main method to test the flow
     public static void main(String[] args) {
+        Scanner consoleScanner = new Scanner(System.in);
         TicTacToe game = new TicTacToe();
-        game.startNewGame();
+        
+        System.out.println("--- Player Turn ---");
+        int chosenSlot = game.getSlotInput(consoleScanner);
+        
+        System.out.println("Successfully recorded slot: " + chosenSlot);
+        
+        consoleScanner.close();
     }
 }
