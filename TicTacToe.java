@@ -1,48 +1,41 @@
-import java.util.Random;
 public class TicTacToe {
 
-    static char[][] board = {
-        {'-', '-', '-'},
-        {'-', '-', '-'},
-        {'-', '-', '-'}
-    };
-    
-    static char computerSymbol = 'O';
+    static boolean isHumanTurn = true;
+    static boolean gameOver = false;
 
     public static void main(String[] args) {
-        computerMove();
+        System.out.println("Game Started!\n");
 
-        printBoard(); 
-    }
+        while (!gameOver) {
 
-    static void computerMove() {
-        Random random = new Random();
-        boolean validMoveFound = false;
+            if (isHumanTurn) {
+                System.out.println("Human Player's turn...");
 
-        System.out.println("Computer is making a move...");
+            } else {
+                System.out.println("Computer's turn...");
 
-        while (!validMoveFound) {
-
-            int slot = random.nextInt(9) + 1; 
-
-            int row = (slot - 1) / 3;
-            int col = (slot - 1) % 3;
-
-            if (board[row][col] == '-') {
-
-                board[row][col] = computerSymbol;
-                validMoveFound = true; 
-                System.out.println("Computer successfully chose slot: " + slot);
             }
+
+            checkWinOrDraw(); 
+
+            isHumanTurn = !isHumanTurn;
+            
+            System.out.println("-------------------------");
         }
-    }
 
-    static void printBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
+        System.out.println("Game Over!");
+    }
+    
+    static int turnsTaken = 0;
+	
+    public static void checkWinOrDraw() {
+        turnsTaken++;
+		
+        if (turnsTaken >= 5) {
+            System.out.println("Win or Draw detected!");
+            gameOver = true; 
+        } else {
+            System.out.println("Game continues...");
         }
     }
 }
